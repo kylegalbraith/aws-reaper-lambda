@@ -11,24 +11,20 @@ module.exports.reaper = async (event, context, callback) => {
     ]
   };
 
-  var availableVolumes = await ec2Client.describeVolumes(decribeVolumeParams).promise();
-  availableVolumes.Volumes.forEach((volume) => {
-    var deleteVolumeParams = {
-      VolumeId: volume.VolumeId
-    };
-    ec2Client.DeleteVolume(deleteVolumeParams)
-  });
-  }).catch((error) => {
-    return callback(error);
-  });
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless v1.0! Your function executed successfully!',
-      input: event,
-    }),
-  };
+  try
+  {
+    var availableVolumes = await ec2Client.describeVolumes(decribeVolumeParams).promise();
 
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
+    var deleteVolumePromises = [];
+    availableVolumes.Volumes.forEach((volume) => {
+      var deleteVolumeParams = {
+        VolumeId: volume.VolumeId
+      };
+      deleteVolumePromises.push(ec2Client.DeleteVolume(deleteVolumeParams).promise());
+    });
+
+    var results = await Promise.all(deleteVolumePromises);
+  } catch(err) {
+    return callback(err);
+  }
 };
