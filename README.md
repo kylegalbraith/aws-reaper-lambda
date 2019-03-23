@@ -5,3 +5,9 @@ This is an AWS Lambda function that will trigger everyday via an AWS CloudWatch 
 
 ### Dependencies
 This repository makes use of the [Serverless Framework](https://serverless.com/). You need to have that installed and configured to provision this function.
+
+### Deployment
+To deploy this function simply clone this repo and run the following command:
+```
+$ serverless deploy
+```
