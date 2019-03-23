@@ -21,7 +21,7 @@ module.exports.reaper = async (event, context, callback) => {
         VolumeId: volume.VolumeId
       };
       console.log(`Scheduling delete of volume: ${volume.VolumeId}`);
-      deleteVolumePromises.push(ec2Client.DeleteVolume(deleteVolumeParams).promise());
+      deleteVolumePromises.push(ec2Client.deleteVolume(deleteVolumeParams).promise());
     });
 
     await Promise.all(deleteVolumePromises);
