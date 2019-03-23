@@ -1,4 +1,5 @@
 'use strict';
+var AWS = require("aws-sdk");
 
 module.exports.reaper = async (event, context, callback) => {
   var ec2Client = new AWS.EC2();
