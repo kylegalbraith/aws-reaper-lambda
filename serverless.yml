@@ -4,7 +4,6 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: us-west-2
-  profile: ufsx
 
   iamRoleStatements:
     - Effect: "Allow"
