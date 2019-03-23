@@ -14,16 +14,17 @@ module.exports.reaper = async (event, context, callback) => {
   try
   {
     var availableVolumes = await ec2Client.describeVolumes(decribeVolumeParams).promise();
-
     var deleteVolumePromises = [];
     availableVolumes.Volumes.forEach((volume) => {
       var deleteVolumeParams = {
         VolumeId: volume.VolumeId
       };
+      console.log(`Scheduling delete of volume: ${volume.VolumeId}`);
       deleteVolumePromises.push(ec2Client.DeleteVolume(deleteVolumeParams).promise());
     });
 
-    var results = await Promise.all(deleteVolumePromises);
+    await Promise.all(deleteVolumePromises);
+    return callback(null, `Successfully removed ${availableVolumes.Volumes.length} EBS volumes.`);
   } catch(err) {
     return callback(err);
   }

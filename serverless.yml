@@ -4,15 +4,18 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: us-west-2
+  profile: ufsx
 
   iamRoleStatements:
     - Effect: "Allow"
-      Actions:
+      Action:
         - "ec2:DescribeVolumes"
         - "ec2:DeleteVolume"
+      Resource:
+        - "*"
 
 functions:
-  hello:
+  ebs-reaper:
     handler: handler.reaper
     events:
       - schedule: rate(1 day)
