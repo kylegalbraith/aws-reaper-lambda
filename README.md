@@ -9,5 +9,6 @@ This repository makes use of the [Serverless Framework](https://serverless.com/)
 ### Deployment
 To deploy this function simply clone this repo and run the following command:
 ```
+$ cd src
 $ serverless deploy
 ```
